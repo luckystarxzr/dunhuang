@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>敦煌壁画画廊</title>
+  <link rel="stylesheet" href="styles.css">
+  <audio id="background-music" autoplay loop>
+    <source src="dunhuan.mp3" type="audio/mpeg">
+  </audio>
+</head>
+<body>
+<header>
+  <nav style="display: flex; align-items: center;">
+    <img src="images/logo.png" alt="Logo" style="width: 50px; height: 50px; margin-right: 10px;">
+    <h1>敦煌壁画</h1>
+    <ul>
+      <li><a href="login.jsp">登录</a></li>
+      <li><a href="register.jsp">注册</a></li>
+      <li><a href="index.jsp">首页</a></li>
+      <li><a href="explore.html">探索</a></li>
+      <li><a href="history.html">历史</a></li>
+      <li><a href="gallery.html">画廊</a></li>
+      <li><a href="about.html">关于</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="gallery">
+    <h1>敦煌画廊</h1>
+    <h2>一起探索美丽的敦煌壁画吧！</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="images/img7.png">
+        <div class="overlay">山中听法</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img8.png">
+        <div class="overlay">山中狩猎</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img9.png">
+        <div class="overlay">倒立童子</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img10.png">
+        <div class="overlay">扫街、降雨</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img11.png">
+        <div class="overlay">国王狩猎</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img12.png">
+        <div class="overlay">马厩</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img13.png">
+        <div class="overlay">二人推磨</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img14.png">
+        <div class="overlay">连枷打场</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img15.png">
+        <div class="overlay">牛环、牛辔导牛</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img16.png">
+        <div class="overlay">葡萄石榴纹藻井</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img17.png">
+        <div class="overlay">莲花纹套斗藻井</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/img18.png">
+        <div class="overlay">莲花纹套斗藻井</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="modal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-image" class="modal-content" alt="">
+    <div id="modal-caption" class="caption"></div>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2024 敦煌壁画 & xzr</p>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+body {
+    font-family: 'SimKai', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('images/background.jpg');
+    background-size: cover;
+    color: #333;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4, p {
+    font-family: 'KaiTi', serif;
+}
+
+header, footer {
+    background: url('images/bg2.png') no-repeat center center/cover;
+    background-color: rgba(51, 51, 51, 0.9);
+    padding: 10px 20px;
+}
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+nav h1 {
+    display: inline-block;
+    color: #fff;
+    font-size: 28px;
+    margin-right: auto;
+}
+
+nav ul {
+    list-style-type: none;
+    display: inline-block;
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-left: 28px;
+    font-size: 22px;
+    line-height: 80px;
+}
+
+nav ul li a {
+    color: red;
+    text-decoration: none;
+    font-family: 'KaiTi', serif;
+}
+/* 调整标题和段落的上边距 */
+.explore-content h1 {
+    font-size: 32px;
+    margin-top: -34px;
+}
+
+.explore-content h3  {
+    font-size: 26px;
+    margin-top: -30px;
+    color: #808080;
+}
+
+/* 轮播图 */
+.carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 566px;
+    object-fit: cover;
+}
+.carousel-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+}
+
+
+.hero {
+    background: url('images/bg.png') no-repeat center center/cover;
+    padding: 100px 20px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.hero h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+
+.hero button {
+    background-color: #f8b400;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.hero button:hover {
+    background-color: #ffcc33;
+    transform: scale(1.05);
+}
+
+
+.features {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.feature {
+    flex: 1;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.feature img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-top: 60px;
+}
+
+.feature img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.feature h3 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.feature p {
+    font-size: 16px;
+    color: #777;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+.explore-content {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.murals-gallery {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.murals-gallery img {
+    width: 30%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.murals-gallery img:hover {
+    transform: scale(1.1);
+}
+
+.gallery {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+/* 统一画廊中所有图片的大小 */
+.gallery-grid {
+    display: flex;
+    gap: 53px;
+    flex-wrap: wrap;
+}
+
+.gallery-item {
+    position: relative;
+    width: 366px;
+    height: 366px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 确保图片内容适应方形框 */
+}
+
+/* 鼠标悬停显示的文字说明 */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+/* 模态窗口样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.history {
+    padding: 50px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #f3e7e9, #e3eeff);
+    border-radius: 8px;
+}
+
+.timeline {
+    position: relative;
+    margin: 20px 0;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #00796b;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-item h3 {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: #00796b;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px white;
+}
+
+.about-content {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin: 50px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.about-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.about-content h3 {
+    font-size: 28px;
+    margin-top: 40px;
+}
+
+.team-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.team-member {
+    text-align: center;
+    max-width: 250px;
+}
+
+.author-image {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.author-image:hover {
+    transform: scale(1.05);
+}
+
+.team-member h4 {
+    font-size: 22px;
+    margin-top: 15px;
+    color: #555;
+}
+
+.team-member p {
+    font-size: 16px;
+    color: #777;
+}
+
+/* 新闻列表样式 */
+.news-list {
+    padding: 50px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.news-list h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 单个新闻项样式 */
+.news-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.news-item:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.news-item h3 {
+    font-size: 24px;
+    color: #00796b;
+}
+
+.news-item h3 a {
+    color: #00796b;
+    text-decoration: none;
+}
+
+.news-item h3 a:hover {
+    text-decoration: underline;
+}
+
+.news-item p {
+    color: #555;
+    font-size: 14px;
+}
+
+.news-item .content {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* 分页样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 10px 15px;
+    background-color: #00796b;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #005f51;
+}
+
+.pagination .active {
+    background-color: #005f51;
+    font-weight: bold;
+}
+
+/* 新闻发布样式 */
+.news-publish {
+    padding: 30px;
+    background-color: #eef;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.news-publish h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #00796b;
+}
+
+.news-publish form {
+    display: flex;
+    flex-direction: column;
+}
+
+.news-publish input,
+.news-publish textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.news-publish button {
+    background-color: #00796b;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.news-publish button:hover {
+    background-color: #005f51;
+}
+
