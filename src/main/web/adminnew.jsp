@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>管理员举报管理</title>
+    <title>新闻管理</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* 样式与之前一致 */
