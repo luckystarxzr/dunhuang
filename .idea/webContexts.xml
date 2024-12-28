@@ -4,7 +4,12 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/web/admin.jsp" value="file://$PROJECT_DIR$/src/main/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/web/adminreport.jsp" value="file://$PROJECT_DIR$/src/main/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/web/explore.jsp" value="file://$PROJECT_DIR$/src/main/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/web/filemanager.jsp" value="file://$PROJECT_DIR$/src/main/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/web/listNews.jsp" value="file://$PROJECT_DIR$/src/main/web" />
         <entry key="file://$PROJECT_DIR$/src/main/web/news.jsp" value="file://$PROJECT_DIR$/src/main/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/web/newsDetail.jsp" value="file://$PROJECT_DIR$/src/main/web" />
         <entry key="file://$PROJECT_DIR$/src/main/web/newsList.jsp" value="file://$PROJECT_DIR$/src/main/web" />
         <entry key="file://$PROJECT_DIR$/src/main/web/newss.jsp" value="file://$PROJECT_DIR$/src/main/web" />
         <entry key="file://$PROJECT_DIR$/src/main/web/report.jsp" value="file://$PROJECT_DIR$/src/main/web" />

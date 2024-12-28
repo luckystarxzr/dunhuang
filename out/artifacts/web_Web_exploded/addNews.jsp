@@ -1,85 +1,53 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>添加新闻</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试 AddNewsServlet</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<header>
+    <h1>测试 AddNewsServlet</h1>
+</header>
 
-<%--<%--%>
-<%--    // 检查用户权限--%>
-<%--    if (session.getAttribute("user") == null || !session.getAttribute("isAdmin").equals(true)) {--%>
-<%--%>--%>
-<%--<p>您没有权限添加新闻。 <a href="login.jsp">登录</a></p>--%>
-<%--} else {--%>
+<main>
+    <form action="AddNewsServlet" method="post" enctype="multipart/form-data">
+        <label for="title">标题:</label><br>
+        <input type="text" id="title" name="title" placeholder="请输入标题" required><br><br>
 
-<form action="file-upload" method="post" enctype="multipart/form-data">
-    标题: <input type="text" name="title" required><br>
-    作者: <input type="text" name="author" value="<%=session.getAttribute("username")%>" readonly><br>
-    内容: <textarea name="content" rows="10" cols="50" required></textarea><br>
-    图片/视频: <label for="fileName">选择文件:</label>
-    <input type="file" id="fileName" name="fileName" required>
-    <input type="submit" value="添加新闻">
-</form>
-<% String successMessage = (String) request.getAttribute("successMessage"); %>
-<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+        <label for="author">作者:</label><br>
+        <input type="text" id="author" name="author" placeholder="请输入作者" required><br><br>
 
-<% if (successMessage != null) { %>
-<p style="color: green;"><%= successMessage %></p>
-<% } %>
+        <label for="content">内容:</label><br>
+        <textarea id="content" name="content" rows="5" cols="40" placeholder="请输入内容" required></textarea><br><br>
 
-<% if (errorMessage != null) { %>
-<p style="color: red;"><%= errorMessage %></p>
-<% } %>
+        <label for="fileName">上传文件:</label><br>
+        <input type="file" id="fileName" name="fileName" required><br><br>
 
-<%
-    if (request.getMethod().equalsIgnoreCase("POST")) {
-        String title = request.getParameter("title");
-        String author = request.getParameter("author");
-        String content = request.getParameter("content");
-        Part filePart = (Part) request.getPart("fileName");
-        String file_Path = filePart.getSubmittedFileName();
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/web", "root", "123456");
+        <button type="submit">提交新闻</button>
+    </form>
 
-            String sql = "INSERT INTO news (title, author, content, file_Path) VALUES (?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, title);
-            pstmt.setString(2, author);
-            pstmt.setString(3, content);
-            pstmt.setString(4, file_Path);
+    <hr>
 
-            int rowsInserted = pstmt.executeUpdate();
-            if (rowsInserted > 0) {
-                out.println("<p>新闻添加成功！</p>");
-            } else {
-                out.println("<p>新闻添加失败！</p>");
-            }
-        } catch (SQLException e) {
-            out.println("<p>数据库错误: " + e.getMessage() + "</p>");
-        } catch (Exception e) {
-            out.println("<p>错误: " + e.getMessage() + "</p>");
-        } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-%>
+    <!-- 显示测试结果 -->
+    <%
+        String successMessage = (String) request.getAttribute("successMessage");
+        String errorMessage = (String) request.getAttribute("errorMessage");
+
+        if (successMessage != null) {
+    %>
+    <p style="color: green;">成功: <%= successMessage %></p>
+    <%
+    } else if (errorMessage != null) {
+    %>
+    <p style="color: red;">错误: <%= errorMessage %></p>
+    <% } %>
+</main>
+
+<footer>
+    <p>&copy; 2024 测试页面</p>
+</footer>
 </body>
 </html>

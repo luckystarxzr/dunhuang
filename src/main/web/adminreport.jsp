@@ -1,82 +1,11 @@
-<%@ page import="java.sql.*, java.util.*" %>
-<%@ page import="Model.Report" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
-
-<%
-    // 数据库连接相关信息
-    String jdbcUrl = "jdbc:mysql://localhost:3306/web";
-    String dbUser = "root";
-    String dbPassword = "123456";
-
-    List<Report> reportList = new ArrayList<>();
-    Connection connection = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
-
-// 处理删除评论请求
-
-    String deleteCommentId = request.getParameter("deleteCommentId");
-    if (deleteCommentId != null) {
-        try {
-            // 加载MySQL驱动
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
-            String deleteQuery = "DELETE FROM comments WHERE id = ?";
-            ps = connection.prepareStatement(deleteQuery);
-            ps.setInt(1, Integer.parseInt(deleteCommentId));
-            ps.executeUpdate();
-            out.println("<p style='color: green;'>评论删除成功！</p>");
-        } catch (SQLException e) {
-            out.println("<p style='color: red;'>删除评论时出现错误: " + e.getMessage() + "</p>");
-            e.printStackTrace();
-        } finally {
-            if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
-            if (connection != null) try { connection.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
-    }
-
-    try {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        // 创建数据库连接
-        connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
-        // 查询举报信息
-        String query = "SELECT report_id, news_id, comment_id, reported_by, report_reason, report_time FROM reports ORDER BY report_time DESC";
-        ps = connection.prepareStatement(query);
-        rs = ps.executeQuery();
-        // 遍历结果集并填充举报列表
-        while (rs.next()) {
-            int reportId = rs.getInt("report_id");
-            int newsId = rs.getInt("news_id");
-            int commentId = rs.getInt("comment_id");
-            String reportedBy = rs.getString("reported_by");
-            String reportReason = rs.getString("report_reason");
-            Timestamp reportTime = rs.getTimestamp("report_time");
-            reportList.add(new Report(reportId, newsId, commentId, reportedBy, reportReason, reportTime));
-        }
-    } catch (SQLException e) {
-        out.println("<p>加载举报信息时出现错误: " + e.getMessage() + "</p>");
-        e.printStackTrace();
-    } finally {
-        // 关闭数据库连接
-        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (connection != null) try { connection.close(); } catch (SQLException e) { e.printStackTrace(); }
-    }
-%>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>管理员举报管理</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        /* 样式与之前一致 */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -121,14 +50,51 @@
             background-color: #ddd;
         }
 
-        p {
-            color: red;
+        .btn-container {
             text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-container button:hover {
+            background-color: #45a049;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .delete-btn:active {
+            background-color: #a93226;
         }
     </style>
 </head>
 <body>
 <h1>用户举报列表</h1>
+
+<div class="btn-container">
+    <button onclick="window.location.href='adminboard.jsp'">返回</button>
+</div>
 
 <table>
     <thead>
@@ -142,25 +108,99 @@
         <th>操作</th>
     </tr>
     </thead>
-    <tbody>
-    <%
-        if (reportList.isEmpty()) {
-            out.println("<tr><td colspan='7'>暂无举报记录。</td></tr>");
-        } else {
-            for (Report report : reportList) {
-                out.println("<tr>");
-                out.println("<td>" + report.getReportId() + "</td>");
-                out.println("<td>" + report.getNewsId() + "</td>");
-                out.println("<td>" + report.getCommentId() + "</td>");
-                out.println("<td>" + report.getReportedBy() + "</td>");
-                out.println("<td>" + report.getReportReason() + "</td>");
-                out.println("<td>" + report.getReportTime() + "</td>");
-                out.println("<td><a href='adminreport.jsp?deleteCommentId=" + report.getCommentId() + "' onclick=\"return confirm('确认删除评论吗?');\">删除评论</a></td>");
-                out.println("</tr>");
-            }
-        }
-    %>
+    <tbody id="reportList">
     </tbody>
 </table>
+
+<script>
+    // 页面加载时加载举报列表
+    $(document).ready(function () {
+        console.log("页面已加载，准备加载举报列表");
+        loadReportList();
+    });
+
+    // 加载举报列表
+    function loadReportList() {
+        console.log("开始加载举报列表");
+        $.ajax({
+            url: 'LoadReportsServlet',
+            type: 'GET',
+            dataType: 'json', // 确保返回数据按 JSON 解析
+            success: function (data) {
+                console.log("服务器返回数据：", data);
+
+                const reportList = $('#reportList');
+                reportList.empty(); // 清空现有内容
+
+                if (data.length === 0) {
+                    console.log("举报列表为空");
+                    reportList.append('<tr><td colspan="7">暂无举报记录。</td></tr>');
+                } else {
+                    console.log("举报列表数据：", data);
+                    data.forEach(function (report) {
+                        let row = '<tr>' +
+                            '<td>' + report.reportId + '</td>' +
+                            '<td>' + report.newsId + '</td>' +
+                            '<td>' + report.commentId + '</td>' +
+                            '<td>' + report.reportedBy + '</td>' +
+                            '<td>' + report.reportReason + '</td>' +
+                            '<td>' + report.reportTime + '</td>' +
+                            '<td><button class="delete-btn" data-comment-id="' + report.commentId + '">删除评论</button></td>' +
+                            '</tr>';
+                        console.log("生成的行内容：", row); // 验证生成的 HTML
+                        reportList.append(row);
+                    });
+
+                    console.log("举报列表渲染完成，当前表格内容：", reportList.html());
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("加载举报信息失败：", xhr, status, error);
+                alert('加载举报信息失败');
+            }
+        });
+    }
+
+    // 绑定动态事件，删除评论
+    $(document).on('click', '.delete-btn', function () {
+        console.log("删除按钮被点击");
+        const commentId = $(this).data('comment-id'); // 获取 data-comment-id 的值
+        console.log(`获取到的评论ID：${commentId}`);
+        if (confirm('确认删除评论吗？')) {
+            deleteComment(commentId);
+        }
+    });
+
+    // 删除评论
+    function deleteComment(commentId) {
+        console.log(`调用 deleteComment 函数，评论ID：${commentId}`);
+        if (!commentId) {
+            console.error("评论ID 未传递");
+            return;
+        }
+        $.ajax({
+            url: 'DeleteCommentServlet',
+            type: 'POST',
+            data: { commentId: commentId },
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            beforeSend: function(xhr) {
+                console.log("发送的数据：", { commentId: commentId });
+            },
+            success: function (response) {
+                console.log("删除评论返回结果：", response);
+                if (response.success) {
+                    alert(response.message);
+                    loadReportList(); // 重新加载列表
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("删除评论失败：", xhr, status, error);
+                alert('删除评论失败');
+            }
+        });
+    }
+</script>
 </body>
 </html>
